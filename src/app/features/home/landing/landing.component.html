@@ -1,0 +1,51 @@
+<div class="container">
+  <h1>Juegos de Mesa</h1>
+
+  <div class="categories">
+    <button 
+      [class.active]="selectedCategory === 'all'"
+      (click)="selectedCategory = 'all'">
+      Todos
+    </button>
+    <button 
+      [class.active]="selectedCategory === 'strategy'"
+      (click)="selectedCategory = 'strategy'">
+      Estrategia
+    </button>
+    <button 
+      [class.active]="selectedCategory === 'party'"
+      (click)="selectedCategory = 'party'">
+      Fiesta
+    </button>
+    <button 
+      [class.active]="selectedCategory === 'family'"
+      (click)="selectedCategory = 'family'">
+      Familia
+    </button>
+    <button 
+      [class.active]="selectedCategory === 'classic'"
+      (click)="selectedCategory = 'classic'">
+      Clásicos
+    </button>
+  </div>
+
+  <div class="games-grid">
+    <ng-container *ngFor="let game of games$ | async">
+      <div class="game-card" *ngIf="selectedCategory === 'all' || game.category === selectedCategory">
+        <img [src]="game.image" [alt]="game.title">
+        <div class="game-info">
+          <h2>{{game.title}}</h2>
+          <p class="description">{{game.description}}</p>
+          <div class="price-container">
+            <span class="original-price" *ngIf="game.discount">{{game.price | currency}}</span>
+            <span class="final-price">
+              {{calculateDiscountedPrice(game.price, game.discount) | currency}}
+            </span>
+            <span class="discount" *ngIf="game.discount">-{{game.discount}}%</span>
+          </div>
+          <button class="buy-button">Comprar</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
